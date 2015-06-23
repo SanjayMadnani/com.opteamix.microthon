@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error" strict="true" name="XMLConfigTest"
+	packages="org.apache.logging.log4j.test">
+	<Properties>
+		<Property name="filename">./logs/application.log</Property>
+		<Property name="rollingfilename">./logs/rolledOverLogs/application-%d{[yyyy-MM-dd_HH-mm-ss]}.log.gz</Property>
+	</Properties>
+	<Appenders>
+		<RollingFile name="RollingFile" fileName="${filename}" filePattern="${rollingfilename}" append="true">
+			<PatternLayout>
+				<Pattern>%d{YYYY-MM-dd}%d{HH:mm:ss.SSS}|${sys:hostName}-%35.35t|%-5p|%m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+		</RollingFile>
+
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Root level="error">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="RollingFile" />
+		</Root>
+	</Loggers>
+</Configuration>
